@@ -310,8 +310,11 @@
             </div>
             <input type="email" id="f-email" required placeholder="tu@email.com"
                 class="input-field w-full rounded-xl px-4 py-3 text-sm">
-            <input type="tel" id="f-whatsapp" required placeholder="WhatsApp (10 dígitos)"
-                class="input-field w-full rounded-xl px-4 py-3 text-sm" maxlength="10">
+            <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 text-sm font-semibold pointer-events-none select-none">+52</span>
+                <input type="tel" id="f-whatsapp" required placeholder="10 dígitos"
+                    class="input-field w-full rounded-xl pl-14 pr-4 py-3 text-sm" maxlength="10">
+            </div>
             <button type="submit" id="btn-ver-cotizacion"
                 class="btn-primary w-full rounded-2xl min-h-[52px] py-4 text-base cursor-pointer mt-2">
                 Ver mi proyección →
