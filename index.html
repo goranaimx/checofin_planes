@@ -293,23 +293,23 @@
             <div class="grid grid-cols-2 gap-3">
                 <input type="text" id="f-nombre" required placeholder="Juan"
                     oninvalid="this.setCustomValidity('Por favor, ingresa tu nombre')"
-                    oninput="this.setCustomValidity('')"
+                    oninput="this.setCustomValidity(''); syncLeadData()"
                     class="input-field w-full rounded-xl px-4 py-3">
                 <input type="text" id="f-apellidos" required placeholder="Pérez"
                     oninvalid="this.setCustomValidity('Por favor, ingresa tus apellidos')"
-                    oninput="this.setCustomValidity('')"
+                    oninput="this.setCustomValidity(''); syncLeadData()"
                     class="input-field w-full rounded-xl px-4 py-3">
             </div>
             <input type="email" id="f-email" required placeholder="juan@email.com"
                 oninvalid="this.validity.valueMissing ? this.setCustomValidity('Por favor, ingresa tu correo') : this.setCustomValidity('Ingresa un correo electrónico válido')"
-                oninput="this.setCustomValidity('')"
+                oninput="this.setCustomValidity(''); syncLeadData()"
                 class="input-field w-full rounded-xl px-4 py-3">
             <div class="relative">
                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-black/30 text-sm font-semibold pointer-events-none select-none">+52</span>
                 <input type="tel" id="f-whatsapp" required placeholder="10 dígitos"
                     pattern="[0-9]{10}" 
                     oninvalid="this.validity.valueMissing ? this.setCustomValidity('Por favor, ingresa tu número') : this.setCustomValidity('El número debe ser de 10 dígitos')"
-                    oninput="this.setCustomValidity(''); this.value = this.value.replace(/[^0-9]/g, '')"
+                    oninput="this.setCustomValidity(''); this.value = this.value.replace(/[^0-9]/g, ''); syncLeadData()"
                     class="input-field w-full rounded-xl pl-14 pr-4 py-3" maxlength="10">
             </div>
             <button type="submit" id="btn-ver-cotizacion"
@@ -510,8 +510,9 @@
     function abrirModalCalendario(idx) {
         const res = calcResults[idx];
         const calParams = new URLSearchParams();
-        calParams.append('name', `${leadData.nombre} ${leadData.apellidos}`);
-        calParams.append('email', leadData.email);
+        calParams.append('first_name', leadData.nombre || '');
+        calParams.append('last_name', leadData.apellidos || '');
+        calParams.append('email', leadData.email || '');
         calParams.append('phone', '+52' + (leadData.whatsapp || '').replace(/\D/g, ''));
 
         document.getElementById('cal-iframe').src = GHL_CALENDAR_URL + '?' + calParams.toString();
@@ -589,6 +590,14 @@
     }
 
     // ── Storage ──────────────────────────────────────────────────────
+    function syncLeadData() {
+        leadData.nombre = document.getElementById('f-nombre').value.trim();
+        leadData.apellidos = document.getElementById('f-apellidos').value.trim();
+        leadData.email = document.getElementById('f-email').value.trim();
+        leadData.whatsapp = document.getElementById('f-whatsapp').value.trim();
+        guardarEnStorage();
+    }
+
     function guardarEnStorage() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
             ...leadData,
@@ -602,11 +611,23 @@
         if (!saved) return;
         try {
             const d = JSON.parse(saved);
+            
+            // Restaurar inputs básicos
             if (d.edad) document.getElementById('inp-edad').value = d.edad;
             if (d.aportacion) document.getElementById('inp-aportacion').value = d.aportacion;
-            // Los campos del form nunca se pre-llenan — siempre vacíos para cada usuario
-            if (d.nombre) leadData = { ...leadData, nombre: d.nombre, apellidos: d.apellidos, email: d.email, whatsapp: d.whatsapp };
-        } catch (e) {}
+            
+            // Restaurar objeto leadData completo
+            leadData = { ...leadData, ...d };
+            
+            // Pre-llenar inputs del formulario de lead
+            if (d.nombre) document.getElementById('f-nombre').value = d.nombre;
+            if (d.apellidos) document.getElementById('f-apellidos').value = d.apellidos;
+            if (d.email) document.getElementById('f-email').value = d.email;
+            if (d.whatsapp) document.getElementById('f-whatsapp').value = d.whatsapp;
+            
+        } catch (e) {
+            console.error("Error cargando desde storage", e);
+        }
     }
 
     // ── Modal utilities ──────────────────────────────────────────────
