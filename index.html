@@ -9,37 +9,52 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #c9a84c;
-            --gold-light: #e2c87a;
-            --gold-dark: #a8853a;
+            --gold: #b38e2b;
+            --gold-light: #c9a84c;
+            --gold-dark: #8c6d1d;
+            --bg-base: #ffffff;
+            --text-main: #1a1a1a;
+            --text-muted: #666666;
+            --text-light: #999999;
         }
 
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f0f0f; color: white; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-base); color: var(--text-main); overflow-x: hidden; }
 
-        /* Glass — blanco sobre oscuro */
+        /* Glass */
         .glass {
-            background: rgba(255,255,255,0.06);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255,255,255,0.11);
+            background: #ffffff;
+            border: 1px solid rgba(0,0,0,0.07);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.04);
         }
-        .glass-light {
-            background: rgba(255,255,255,0.09);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.14);
+
+        /* Card de cotización */
+        .calc-card {
+            background: #ffffff;
+            border: 1px solid rgba(0,0,0,0.07);
+            border-radius: 1.75rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+
+        /* Card de resultado */
+        .result-card {
+            background: #ffffff;
+            border: 1px solid rgba(0,0,0,0.07);
+            border-radius: 1.25rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        }
+        .result-card.highlight {
+            border-left: 3px solid var(--gold);
         }
 
         /* Number input reset */
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
 
-        /* Hero glow — dorado sutil */
-        .bg-hero { background: radial-gradient(ellipse 80% 60% at 50% -5%, rgba(201,168,76,0.10) 0%, transparent 65%); }
+        /* Hero base */
+        .bg-hero { background: transparent; }
 
         /* Card destacada */
         .card-highlight {
-            border-color: rgba(201,168,76,0.45) !important;
             background: rgba(201,168,76,0.06) !important;
         }
         .badge-gold {
@@ -47,101 +62,100 @@
         }
 
         /* Tabs */
-        .tab-btn { transition: all 0.2s; color: rgba(255,255,255,0.4); }
+        .tab-btn { transition: all 0.2s; color: var(--text-light); }
         .tab-btn.active {
-            background: rgba(201,168,76,0.15);
-            border-color: rgba(201,168,76,0.5) !important;
-            color: var(--gold-light);
+            background: rgba(201,168,76,0.1);
+            border-color: rgba(201,168,76,0.4) !important;
+            color: var(--gold-dark);
         }
 
         /* Modals */
         .modal-overlay {
             display: none;
             position: fixed; inset: 0; z-index: 50;
-            background: rgba(0,0,0,0.82);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             align-items: center; justify-content: center;
             padding: 1rem;
         }
         .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .modal-card { animation: slideUp 0.25s ease; }
+        .modal-card { animation: slideUp 0.25s ease; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 3px; }
 
         /* Inputs */
         .input-field {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.12);
+            background: #f8f8f8;
+            border: 1px solid rgba(0,0,0,0.08);
             transition: border-color 0.2s;
             font-size: 16px;
-            color: white;
+            color: var(--text-main);
         }
         .input-field:focus {
             outline: none;
-            border-color: rgba(201,168,76,0.6);
-            background: rgba(201,168,76,0.04);
+            border-color: rgba(201,168,76,0.5);
+            background: #fff;
         }
-        .input-field::placeholder { color: rgba(255,255,255,0.28); }
+        .input-field::placeholder { color: #aaa; }
 
         /* Botón dorado */
         .btn-primary {
             background: linear-gradient(135deg, var(--gold-dark), var(--gold));
-            color: #1a1200;
+            color: white;
             font-weight: 700;
             transition: opacity 0.2s, transform 0.1s;
-            box-shadow: 0 4px 20px rgba(201,168,76,0.25);
+            box-shadow: 0 4px 20px rgba(201,168,76,0.2);
         }
         .btn-primary:hover { opacity: 0.92; }
         .btn-primary:active { transform: scale(0.98); }
 
         /* Botón outline */
         .btn-outline {
-            border: 1px solid rgba(255,255,255,0.15);
-            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(0,0,0,0.1);
+            color: var(--text-muted);
             transition: all 0.2s;
         }
-        .btn-outline:hover { border-color: rgba(201,168,76,0.4); color: var(--gold-light); }
+        .btn-outline:hover { border-color: var(--gold); color: var(--gold-dark); }
 
         /* Spinner */
-        .spinner { border: 2px solid rgba(0,0,0,0.2); border-top-color: #1a1200; border-radius: 50%; width: 16px; height: 16px; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; }
+        .spinner { border: 2px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; width: 16px; height: 16px; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* Advisor photo */
         .advisor-photo {
             border-radius: 50%;
-            border: 2.5px solid rgba(201,168,76,0.55);
-            box-shadow: 0 0 28px rgba(201,168,76,0.22);
+            border: 1.5px solid rgba(201,168,76,0.35);
             object-fit: cover;
             object-position: center 15%;
         }
 
         /* Texto dorado */
-        .text-gold { color: var(--gold); }
-        .text-gold-light { color: var(--gold-light); }
+        .text-gold { color: var(--gold-dark); }
+        .text-gold-light { color: var(--gold); }
 
         /* Divisor */
-        .divider { border-color: rgba(255,255,255,0.08); }
+        .divider { border-color: rgba(0,0,0,0.06); }
     </style>
 </head>
 <body>
 
+<!-- Nav Global -->
+<nav class="relative z-10 flex items-center justify-between px-5 sm:px-8 md:px-12 py-4">
+    <img src="logo.png" alt="ChecoFinanzas" class="h-9 sm:h-11">
+    <div class="hidden sm:flex items-center gap-2 text-xs text-black/40">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Agente certificado Allianz · Miembro MDRT
+    </div>
+</nav>
+
 <!-- ─── HERO / STEP 1: Inputs ─────────────────────────────────── -->
 <div id="view-inputs" class="min-h-screen flex flex-col">
-
-    <!-- Nav -->
-    <nav class="relative z-10 flex items-center justify-between px-5 sm:px-8 md:px-12 py-4">
-        <img src="logo.png" alt="ChecoFinanzas" class="h-9 sm:h-11">
-        <div class="hidden sm:flex items-center gap-2 text-xs text-white/40">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Agente certificado Allianz · Miembro MDRT
-        </div>
-    </nav>
 
     <!-- Hero Content -->
     <div class="bg-hero flex-1 flex flex-col items-center px-5 sm:px-8 pb-14 pt-2">
@@ -151,34 +165,20 @@
             <!-- Columna izquierda: texto -->
             <div class="mb-10 md:mb-0 md:pt-6">
 
-                <!-- Badges -->
-                <div class="flex flex-wrap items-center gap-2 mb-6">
-                    <span class="text-[11px] font-semibold px-3 py-1 rounded-full bg-white/6 border border-white/12 text-white/60">Plan Personal de Retiro</span>
-                    <span class="text-[11px] font-semibold px-3 py-1 rounded-full bg-white/6 border border-white/12 text-white/60">Deducible ISR Art. 151</span>
-                </div>
-
                 <!-- Headline -->
-                <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-4">
-                    Construye tu retiro hoy,<br>
-                    <span class="text-gold">sin sacrificar tu vida</span>
+                <p class="text-xs font-medium text-black/35 mb-4 tracking-wide">Allianz Optimax Plus · Plan Personal de Retiro</p>
+                <h1 class="text-3xl sm:text-4xl md:text-[2.75rem] font-bold leading-[1.15] mb-5 text-gray-900">
+                    Ahorra hoy para el retiro<br>
+                    <span class="text-gold">que mereces mañana</span>
                 </h1>
-                <p class="text-white/40 text-sm sm:text-base leading-relaxed mb-8">
-                    Ingresa tu edad y cuánto puedes ahorrar al mes.<br class="hidden sm:block">
-                    En segundos ves cuánto tendrás al retirarte.
+                <p class="text-black/45 text-base leading-relaxed mb-10">
+                    Simula cuánto tendrás a los 65 años con el plan de retiro de Allianz. Deducible de impuestos, sin costo de asesoría.
                 </p>
 
-                <!-- Trust items -->
-                <div class="space-y-3">
-                    <div class="flex items-center gap-3 text-sm text-white/50">
-                        <span class="text-gold">✓</span> Sin costo de asesoría
-                    </div>
-                    <div class="flex items-center gap-3 text-sm text-white/50">
-                        <span class="text-gold">✓</span> Agente certificado MDRT — Top 1% del mundo
-                    </div>
-                    <div class="flex items-center gap-3 text-sm text-white/50">
-                        <span class="text-gold">✓</span> Empresa regulada CNSF · +25 años Allianz
-                    </div>
-                </div>
+                <!-- Trust — una sola línea discreta -->
+                <p class="text-xs text-black/30">
+                    Agente certificado Allianz &nbsp;·&nbsp; Miembro MDRT Top 1% &nbsp;·&nbsp; Empresa regulada CNSF
+                </p>
             </div>
 
             <!-- Columna derecha: calculadora con Checo saliendo desde atrás -->
@@ -189,38 +189,34 @@
                     class="absolute left-1/2 -translate-x-1/2 z-0 pointer-events-none select-none"
                     style="top: 0; width: 260px; object-fit: contain; object-position: top center;">
 
-                <!-- Card calculadora — z-index superior cubre la parte inferior de Checo -->
-                <div class="glass rounded-[2rem] relative z-10 pt-6 pb-6 px-5 sm:px-7 w-full">
+                <!-- Card calculadora -->
+                <div class="calc-card relative z-10 pt-6 pb-6 px-5 sm:px-7 w-full">
 
                     <!-- Nombre del asesor dentro de la card -->
                     <div class="text-center mb-6">
-                        <p class="font-bold text-white text-sm">Sergio "Checo" Fernández</p>
+                        <p class="font-semibold text-gray-900 text-sm">Sergio "Checo" Fernández</p>
                         <p class="text-xs text-gold/80 mt-0.5">Agente Certificado Allianz · Miembro MDRT</p>
                     </div>
 
-                    <div class="w-12 h-px bg-white/10 mx-auto mb-6"></div>
-
-                    <p class="text-[11px] font-bold uppercase tracking-widest text-white/35 mb-5 text-center">Configura tu cotización</p>
-
                     <div class="space-y-5">
                         <div>
-                            <label class="block text-xs font-semibold text-white/40 mb-2 uppercase tracking-wide">Tu edad actual</label>
+                            <label class="block text-xs font-medium text-black/40 mb-2">Edad actual</label>
                             <input type="number" id="inp-edad" value="35" min="18" max="59"
                                 class="input-field w-full rounded-2xl px-5 py-4 text-xl font-bold" placeholder="35">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-white/40 mb-2 uppercase tracking-wide">Aportación mensual</label>
+                            <label class="block text-xs font-medium text-black/40 mb-2">Aportación mensual</label>
                             <div class="relative">
-                                <span class="absolute left-5 top-1/2 -translate-y-1/2 text-white/40 text-lg font-bold pointer-events-none">$</span>
+                                <span class="absolute left-5 top-1/2 -translate-y-1/2 text-black/30 text-lg font-bold pointer-events-none">$</span>
                                 <input type="number" id="inp-aportacion" value="3000" min="1500"
                                     class="input-field w-full rounded-2xl pl-10 pr-5 py-4 text-xl font-bold" placeholder="3000">
                             </div>
-                            <p class="text-[10px] text-white/25 mt-1.5 ml-1">* Se ajusta 5% anual por inflación. Monto en MXN.</p>
+                            <p class="text-[10px] text-black/30 mt-1.5 ml-1">* Se ajusta 5% anual por inflación. Monto en MXN.</p>
                         </div>
 
-                        <div class="rounded-2xl bg-white/4 border border-white/8 p-4 text-xs text-white/50 leading-relaxed">
-                            <span class="text-gold font-semibold">Beneficio fiscal:</span> Deduces hasta <strong class="text-white/70">$189,000 MXN</strong> anuales en ISR (Art. 151 LISR).
+                        <div class="rounded-2xl bg-black/5 border border-black/5 p-4 text-xs text-black/60 leading-relaxed">
+                            <span class="text-gold font-semibold">Beneficio fiscal:</span> Deduces hasta <strong class="text-black/80">$189,000 MXN</strong> anuales en ISR (Art. 151 LISR).
                         </div>
 
                         <button id="btn-cotizar" onclick="abrirModalDatos()"
@@ -240,32 +236,31 @@
     <!-- Header -->
     <div class="flex items-center gap-3 sm:gap-4 mb-6">
         <button onclick="volverAInputs()"
-            class="min-w-[44px] min-h-[44px] w-11 h-11 rounded-xl glass flex items-center justify-center text-white/40 hover:text-white transition cursor-pointer shrink-0">
+            class="min-w-[44px] min-h-[44px] w-11 h-11 rounded-xl glass flex items-center justify-center text-black/40 hover:text-black transition cursor-pointer shrink-0">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
         </button>
         <div class="flex-1">
-            <h2 id="results-greeting" class="text-xl sm:text-2xl font-extrabold text-white">Tu Proyección</h2>
-            <p class="text-white/40 text-xs sm:text-sm">Fondo estimado al llegar a los <strong class="text-white">65 años</strong></p>
+            <h2 id="results-greeting" class="text-xl sm:text-2xl font-extrabold text-gray-900">Tu Proyección</h2>
+            <p class="text-black/40 text-xs sm:text-sm">Fondo estimado al llegar a los <strong class="text-black">65 años</strong></p>
         </div>
-        <img src="logo.png" alt="ChecoFinanzas" class="h-8 shrink-0 opacity-40">
     </div>
 
     <!-- Advisor reminder -->
     <div class="glass rounded-2xl p-3 flex items-center gap-3 mb-5">
         <img src="checo-perfil.png" alt="Checo" class="advisor-photo w-10 h-10 shrink-0">
-        <p class="text-xs text-white/50 leading-relaxed">
-            <strong class="text-white">Checo</strong> preparó estas proyecciones con los parámetros reales de Allianz Optimax Plus.
+        <p class="text-xs text-black/60 leading-relaxed">
+            <strong class="text-gray-900">Checo</strong> preparó estas proyecciones con los parámetros reales de Allianz Optimax Plus.
             Elige la aportación que mejor se adapte a ti.
         </p>
     </div>
 
     <!-- Frequency tabs -->
     <div class="flex gap-1.5 sm:gap-2 mb-4">
-        <button class="tab-btn active flex-1 text-[11px] sm:text-xs font-semibold min-h-[44px] rounded-xl border border-white/10 cursor-pointer"
+        <button class="tab-btn active flex-1 text-[11px] sm:text-xs font-semibold min-h-[44px] rounded-xl border border-black/5 cursor-pointer"
             data-mult="1" onclick="cambiarFrecuencia(this)">Mensual</button>
-        <button class="tab-btn flex-1 text-[11px] sm:text-xs font-semibold min-h-[44px] rounded-xl border border-white/10 cursor-pointer"
+        <button class="tab-btn flex-1 text-[11px] sm:text-xs font-semibold min-h-[44px] rounded-xl border border-black/5 cursor-pointer"
             data-mult="3" onclick="cambiarFrecuencia(this)">Trimestral</button>
-        <button class="tab-btn flex-1 text-[11px] sm:text-xs font-semibold min-h-[44px] rounded-xl border border-white/10 cursor-pointer"
+        <button class="tab-btn flex-1 text-[11px] sm:text-xs font-semibold min-h-[44px] rounded-xl border border-black/5 cursor-pointer"
             data-mult="12" onclick="cambiarFrecuencia(this)">Anual</button>
     </div>
 
@@ -273,7 +268,7 @@
     <div id="cards-container" class="space-y-3"></div>
 
     <!-- Disclaimer -->
-    <p class="text-[10px] text-white/20 mt-6 leading-relaxed text-center px-2">
+    <p class="text-[11px] text-black/25 mt-6 leading-relaxed">
         Proyecciones con rendimiento anual del 10% y ajuste inflacionario del 5%. Valores estimados, no garantizados.
     </p>
 </div>
@@ -285,39 +280,32 @@
     <div class="modal-card glass rounded-[2rem] p-5 sm:p-8 w-full max-w-md mx-auto">
         <div class="flex items-center justify-between mb-2">
             <div>
-                <h3 class="text-lg font-extrabold text-white">Un paso más</h3>
-                <p class="text-xs text-white/40 mt-0.5">Para ver tu proyección personalizada</p>
+                <h3 class="text-lg font-extrabold text-gray-900">Un paso más</h3>
+                <p class="text-xs text-black/40 mt-0.5">Para ver tu proyección personalizada</p>
             </div>
             <button onclick="cerrarModal('modal-datos')"
-                class="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center transition text-white/40 cursor-pointer">
+                class="w-8 h-8 rounded-xl bg-black/5 hover:bg-black/10 flex items-center justify-center transition text-black/40 cursor-pointer">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
         </div>
 
-        <div class="mt-5 mb-1 flex items-center gap-3">
-            <img src="checo-perfil.png" alt="Checo" class="advisor-photo w-10 h-10 shrink-0">
-            <p class="text-xs text-white/50">Checo preparará tu proyección en segundos.</p>
-        </div>
-
-        <div class="divider border-t my-5"></div>
-
-        <form onsubmit="enviarDatosYCotizar(event)" class="space-y-4">
+        <form onsubmit="enviarDatosYCotizar(event)" class="space-y-4 mt-5">
             <div class="grid grid-cols-2 gap-3">
-                <input type="text" id="f-nombre" required placeholder="Nombre"
+                <input type="text" id="f-nombre" required placeholder="Juan"
                     oninvalid="this.setCustomValidity('Por favor, ingresa tu nombre')"
                     oninput="this.setCustomValidity('')"
                     class="input-field w-full rounded-xl px-4 py-3">
-                <input type="text" id="f-apellidos" required placeholder="Apellidos"
+                <input type="text" id="f-apellidos" required placeholder="Pérez"
                     oninvalid="this.setCustomValidity('Por favor, ingresa tus apellidos')"
                     oninput="this.setCustomValidity('')"
                     class="input-field w-full rounded-xl px-4 py-3">
             </div>
-            <input type="email" id="f-email" required placeholder="tu@email.com"
+            <input type="email" id="f-email" required placeholder="juan@email.com"
                 oninvalid="this.validity.valueMissing ? this.setCustomValidity('Por favor, ingresa tu correo') : this.setCustomValidity('Ingresa un correo electrónico válido')"
                 oninput="this.setCustomValidity('')"
                 class="input-field w-full rounded-xl px-4 py-3">
             <div class="relative">
-                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 text-sm font-semibold pointer-events-none select-none">+52</span>
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-black/30 text-sm font-semibold pointer-events-none select-none">+52</span>
                 <input type="tel" id="f-whatsapp" required placeholder="10 dígitos"
                     pattern="[0-9]{10}" 
                     oninvalid="this.validity.valueMissing ? this.setCustomValidity('Por favor, ingresa tu número') : this.setCustomValidity('El número debe ser de 10 dígitos')"
@@ -329,26 +317,26 @@
                 Ver mi proyección →
             </button>
         </form>
-        <p class="text-[10px] text-white/20 text-center mt-3">Tu información es privada y no se comparte con terceros.</p>
+        <p class="text-[10px] text-black/30 text-center mt-3">Tu información es privada y no se comparte con terceros.</p>
     </div>
 </div>
 
 <!-- Modal 2: Amortización detalle -->
 <div id="modal-amortizacion" class="modal-overlay" onclick="cerrarModalSiFondo(event, 'modal-amortizacion')">
     <div class="modal-card glass rounded-[2rem] w-full max-w-2xl mx-auto max-h-[90vh] flex flex-col overflow-hidden">
-        <div class="p-5 sm:p-6 border-b border-white/8 flex justify-between items-center">
+        <div class="p-5 sm:p-6 border-b border-black/5 flex justify-between items-center">
             <div>
-                <h3 class="font-extrabold text-base sm:text-lg text-white">Proyección año a año</h3>
-                <p id="amort-subtitle" class="text-white/40 text-xs mt-0.5"></p>
+                <h3 class="font-extrabold text-base sm:text-lg text-gray-900">Proyección año a año</h3>
+                <p id="amort-subtitle" class="text-black/40 text-xs mt-0.5"></p>
             </div>
             <button onclick="cerrarModal('modal-amortizacion')"
-                class="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center text-white/40 cursor-pointer shrink-0">
+                class="w-11 h-11 rounded-xl bg-black/5 flex items-center justify-center text-black/40 cursor-pointer shrink-0">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
         </div>
-        <div class="flex-1 overflow-auto" style="background:#0a0a0a;">
+        <div class="flex-1 overflow-auto" style="background:#fff;">
             <table class="w-full text-left text-xs sm:text-sm">
-                <thead class="text-white/30 sticky top-0 backdrop-blur-md" style="background:rgba(10,10,10,0.9);">
+                <thead class="text-black/30 sticky top-0 backdrop-blur-md" style="background:rgba(255,255,255,0.95);">
                     <tr>
                         <th class="px-4 sm:px-5 py-3 font-semibold">AÑO</th>
                         <th class="px-4 sm:px-5 py-3 font-semibold">EDAD</th>
@@ -356,13 +344,13 @@
                         <th class="px-4 sm:px-5 py-3 font-semibold">SALDO PROY.</th>
                     </tr>
                 </thead>
-                <tbody id="amort-tbody" class="divide-y divide-white/4"></tbody>
+                <tbody id="amort-tbody" class="divide-y divide-black/5"></tbody>
             </table>
         </div>
-        <div class="p-4 sm:p-5 border-t border-white/8">
+        <div class="p-4 sm:p-5 border-t border-black/5">
             <button onclick="cerrarModal('modal-amortizacion'); elegirPlan(currentAmortIdx)"
                 class="btn-primary w-full rounded-2xl py-4 text-sm cursor-pointer">
-                Elegir esta opción y agendar asesoría
+                Contratar esta opción y agendar asesoría
             </button>
         </div>
     </div>
@@ -371,13 +359,13 @@
 <!-- Modal 3: Calendario GHL embebido -->
 <div id="modal-calendario" class="modal-overlay" onclick="cerrarModalSiFondo(event, 'modal-calendario')">
     <div class="modal-card glass rounded-[2rem] w-full max-w-lg mx-auto max-h-[90vh] flex flex-col overflow-hidden">
-        <div class="p-5 border-b border-white/8 flex items-center justify-between shrink-0">
+        <div class="p-5 border-b border-black/5 flex items-center justify-between shrink-0">
             <div>
-                <h3 class="font-extrabold text-base text-white">Agenda tu asesoría</h3>
-                <p id="cal-subtitle" class="text-gold/80 text-xs mt-0.5">Elige el horario que más te convenga</p>
+                <h3 class="font-extrabold text-base text-gray-900">Agenda tu asesoría</h3>
+                <p id="cal-subtitle" class="text-gold text-xs mt-0.5">Elige el horario que más te convenga</p>
             </div>
             <button onclick="cerrarModal('modal-calendario')"
-                class="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center text-white/40 cursor-pointer shrink-0">
+                class="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center text-black/40 cursor-pointer shrink-0">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
         </div>
@@ -455,24 +443,25 @@
     // ── Render Cards ─────────────────────────────────────────────────
     function renderCards() {
         const container = document.getElementById('cards-container');
-        // Card central (índice 1) tiene highlight dorado
+        // Card central (índice 1) tiene fondo dorado sutil
         container.innerHTML = calcResults.map((res, i) => {
             const isHighlight = i === 1;
             const aportDisplay = fmt.format(res.aportacionBase * currentMultiplier);
+            const bgColor = isHighlight ? 'rgba(201,168,76,0.06)' : '#ffffff';
             return `
-            <div class="glass rounded-2xl overflow-hidden ${isHighlight ? 'card-highlight' : ''}">
+            <div class="result-card ${isHighlight ? 'highlight' : ''}">
                 <!-- Aportación: elemento principal -->
                 <div class="px-5 pt-5 pb-2">
-                    <p class="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">Aportación ${currentMultiplier === 1 ? 'mensual' : currentMultiplier === 3 ? 'trimestral' : 'anual'}</p>
-                    <p class="text-3xl sm:text-4xl font-extrabold ${isHighlight ? 'text-gold' : 'text-white'} leading-none tracking-tight">${aportDisplay}</p>
+                    <p class="text-[10px] font-medium text-black/30 mb-1">Aportación ${currentMultiplier === 1 ? 'mensual' : currentMultiplier === 3 ? 'trimestral' : 'anual'}</p>
+                    <p class="text-2xl sm:text-3xl font-bold ${isHighlight ? 'text-gold' : 'text-gray-900'} leading-none">${aportDisplay}</p>
                 </div>
 
                 <!-- Proyección y acciones -->
                 <div class="px-5 pt-3 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <p class="text-[10px] text-white/30 uppercase font-semibold mb-1">Fondo proyectado a los 65 años</p>
-                        <p class="text-2xl font-extrabold text-white leading-none">${fmtShort(res.capital)}</p>
-                        <p class="text-xs text-white/30 mt-1">+ ${fmtShort(res.totalSAT)} devolución SAT</p>
+                        <p class="text-[10px] text-black/30 uppercase font-semibold mb-1">Fondo proyectado a los 65 años</p>
+                        <p class="text-2xl font-extrabold text-gray-900 leading-none">${fmtShort(res.capital)}</p>
+                        <p class="text-xs text-black/30 mt-1">+ ${fmtShort(res.totalSAT)} devolución SAT</p>
                     </div>
                     <div class="flex gap-2 shrink-0">
                         <button onclick="abrirDetalle(${i})"
@@ -481,7 +470,7 @@
                         </button>
                         <button onclick="elegirPlan(${i})"
                             class="btn-primary px-4 py-2.5 rounded-xl text-xs min-h-[40px] cursor-pointer">
-                            Elegir →
+                            Contratar →
                         </button>
                     </div>
                 </div>
@@ -496,10 +485,10 @@
         document.getElementById('amort-subtitle').innerText =
             `${fmt.format(res.aportacionBase)}/mes · Plazo ${EDAD_RETIRO - leadData.edad} años`;
         document.getElementById('amort-tbody').innerHTML = res.tabla.map(row => `
-            <tr class="hover:bg-white/2 transition">
-                <td class="px-4 sm:px-5 py-3 text-white/30">Año ${row.anio}</td>
-                <td class="px-4 sm:px-5 py-3 font-semibold text-white/70">${row.edad} años</td>
-                <td class="px-4 sm:px-5 py-3 text-white/40">${fmt.format(row.fA)}</td>
+            <tr class="hover:bg-black/2 transition">
+                <td class="px-4 sm:px-5 py-3 text-black/30">Año ${row.anio}</td>
+                <td class="px-4 sm:px-5 py-3 font-semibold text-gray-700">${row.edad} años</td>
+                <td class="px-4 sm:px-5 py-3 text-black/40">${fmt.format(row.fA)}</td>
                 <td class="px-4 sm:px-5 py-3 font-extrabold text-gold">${fmt.format(row.saldo)}</td>
             </tr>`).join('');
         abrirModal('modal-amortizacion');
@@ -615,10 +604,7 @@
             const d = JSON.parse(saved);
             if (d.edad) document.getElementById('inp-edad').value = d.edad;
             if (d.aportacion) document.getElementById('inp-aportacion').value = d.aportacion;
-            if (d.nombre) document.getElementById('f-nombre').value = d.nombre;
-            if (d.apellidos) document.getElementById('f-apellidos').value = d.apellidos;
-            if (d.email) document.getElementById('f-email').value = d.email;
-            // Solo pre-cargar datos del lead, pero requerir nueva captura siempre
+            // Los campos del form nunca se pre-llenan — siempre vacíos para cada usuario
             if (d.nombre) leadData = { ...leadData, nombre: d.nombre, apellidos: d.apellidos, email: d.email, whatsapp: d.whatsapp };
         } catch (e) {}
     }
