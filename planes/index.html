@@ -343,7 +343,7 @@
                     </li>
                     <li class="flex items-start gap-2 text-xs text-black/60">
                         <svg class="benefit-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                        Suma asegurada desde $1,000,000 MXN
+                        Suma asegurada desde $400,000 MXN
                     </li>
                     <li class="flex items-start gap-2 text-xs text-black/60">
                         <svg class="benefit-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
@@ -421,6 +421,42 @@
                     <li class="flex items-start gap-2 text-xs text-black/60">
                         <svg class="benefit-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
                         Deducible de impuestos (Art. 151 LISR)
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Beca Impulsa -->
+            <div class="product-card result-card p-5 sm:p-6" onclick="toggleProduct('beca')" role="button" aria-pressed="false" id="card-beca">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="step-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full inline-block mb-1 bg-black/5 text-black/40">Ahorro educativo</span>
+                            <h3 class="font-bold text-base text-gray-900">Beca Impulsa</h3>
+                        </div>
+                    </div>
+                    <div class="check-badge w-7 h-7 rounded-full badge-gold flex items-center justify-center">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                </div>
+                <p class="text-xs text-black/45 mb-4 leading-relaxed">Asegura la universidad de tus hijos desde hoy. Tú eliges la meta, la mensualidad y cómo quieres crecer tu dinero.</p>
+                <ul class="space-y-2">
+                    <li class="flex items-start gap-2 text-xs text-black/60">
+                        <svg class="benefit-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        Tú eliges la universidad y la mensualidad
+                    </li>
+                    <li class="flex items-start gap-2 text-xs text-black/60">
+                        <svg class="benefit-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        Plataforma de ahorro: inversión o garantizado
+                    </li>
+                    <li class="flex items-start gap-2 text-xs text-black/60">
+                        <svg class="benefit-check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        Protección ante invalidez y fallecimiento
                     </li>
                 </ul>
             </div>
@@ -607,7 +643,8 @@
         ppr:  'Plan de Retiro (PPR)',
         vida: 'Seguro de Vida',
         auto: 'Seguro de Auto',
-        gmm:  'Gastos Médicos Mayores'
+        gmm:  'Gastos Médicos Mayores',
+        beca: 'Beca Impulsa'
     };
 
     let selectedProducts = new Set();
@@ -786,7 +823,7 @@
         if (d.email)     document.getElementById('f-email').value     = d.email;
         if (d.telefono)  document.getElementById('f-telefono').value  = d.telefono;
 
-        const valid = ['ppr','vida','auto','gmm'];
+        const valid = ['ppr','vida','auto','gmm','beca'];
         if (Array.isArray(d.productosSeleccionados)) {
             d.productosSeleccionados.forEach(id => {
                 if (valid.includes(id)) {
